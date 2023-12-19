@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/webpack-config": "^19.0.0",
     "@react-native-community/slider": "^4.5.0",
     "@theoplayer/react-native-ui": "^0.3.0",
     "expo": "~49.0.15",
@@ -17,7 +18,8 @@
     "react": "18.2.0",
     "react-native": "0.72.6",
     "react-native-svg": "^13.8.0",
-    "react-native-theoplayer": "^3.3.3"
+    "react-native-theoplayer": "^3.3.3",
+    "theoplayer": "^6.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

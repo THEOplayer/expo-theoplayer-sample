@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.theoplayer.expo.sample"
     },
     "android": {
       "adaptiveIcon": {
