@@ -13,5 +13,7 @@ React Native apps.
 ```bash
 $ npm install
 $ npm run android
+$ npm run web
+$ npm run ios
 ```
 
