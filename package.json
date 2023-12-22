@@ -23,7 +23,8 @@
     "theoplayer": "^6.7.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.6"
+    "@babel/core": "^7.23.6",
+    "copy-webpack-plugin": "^11.0.0"
   },
   "private": true
 }
