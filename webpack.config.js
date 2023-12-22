@@ -13,12 +13,7 @@ const CopyWebpackPluginConfig = new CopyWebpackPlugin({
       // THEOplayer will find them by setting `libraryLocation` in the playerConfiguration.
       from: path.resolve(projectRoot, './node_modules/theoplayer/THEOplayer.transmux.*').replace(/\\/g, '/'),
       to: `${libraryLocation}/[name][ext]`,
-    },
-    {
-      // Copy CSS files
-      from: path.resolve(projectRoot, './web/public/*.css').replace(/\\/g, '/'),
-      to: `[name][ext]`,
-    },
+    }
   ],
 });
 
