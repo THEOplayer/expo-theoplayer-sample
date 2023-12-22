@@ -40,7 +40,7 @@ const playerConfig = {
  * If you don't want to create a custom UI, you can just use the THEOplayerDefaultUi component instead.
  */
 export default function App() {
-    const [player, setPlayer] = useState(undefined);
+    const [player, setPlayer] = useState();
     const chromeless = playerConfig?.chromeless ?? false;
     const onPlayerReady = (player) => {
         setPlayer(player);
@@ -55,21 +55,19 @@ export default function App() {
         player.addEventListener(PlayerEventType.SEEKING, console.log);
         player.addEventListener(PlayerEventType.SEEKED, console.log);
         player.addEventListener(PlayerEventType.ENDED, console.log);
+        player.addEventListener(PlayerEventType.ERROR, console.log);
         player.source = {
-            "sources": [
-                {
-                    "src": "https://cdn.theoplayer.com/video/dash/bbb_30fps/bbb_with_multiple_tiled_thumbnails.mpd",
-                    "type": "application/dash+xml"
-                }
-            ],
+            "sources": [{
+                "src": "https://cdn.theoplayer.com/video/big_buck_bunny/big_buck_bunny.m3u8",
+                "type": "application/x-mpegurl"
+            }],
             "poster": "https://cdn.theoplayer.com/video/big_buck_bunny/poster.jpg",
             "metadata": {
-                "title": "Big Buck Bunny",
-                "subtitle": "DASH - Thumbnails in manifest",
-                "album": "React-Native THEOplayer demos",
-                "mediaUri": "https://theoplayer.com",
+                "title": "The Title",
+                "subtitle": "The Subtitle",
+                "album": "Album",
                 "displayIconUri": "https://cdn.theoplayer.com/video/big_buck_bunny/poster.jpg",
-                "artist": "THEOplayer"
+                "artist": "Artist"
             }
         };
 
