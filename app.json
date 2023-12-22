@@ -28,8 +28,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "react-native-theoplayer"
-    ]
+    "plugins": ["react-native-theoplayer"]
   }
 }
