@@ -1,27 +1,20 @@
-import * as React from 'react';
-import { useState } from 'react';
+import {Platform, View, StyleSheet} from "react-native";
+import {PlayerEventType, THEOplayer, THEOplayerView} from "react-native-theoplayer";
+import {useState} from "react";
 import {
+    CastMessage,
     CenteredControlBar,
     CenteredDelayedActivityIndicator,
     ControlBar,
     DEFAULT_THEOPLAYER_THEME,
     FullscreenButton,
-    LanguageMenuButton,
-    MuteButton,
-    PipButton,
-    PlaybackRateSubMenu,
-    PlayButton,
-    QualitySubMenu,
-    SeekBar,
-    SettingsMenuButton,
+    LanguageMenuButton, MuteButton,
+    PipButton, PlaybackRateSubMenu, PlayButton, QualitySubMenu, SeekBar, SettingsMenuButton,
     SkipButton,
     Spacer,
     TimeLabel,
-    UiContainer,
-} from '@theoplayer/react-native-ui';
-import { PlayerEventType, THEOplayerView } from 'react-native-theoplayer';
-
-import { Platform, StyleSheet, View } from 'react-native';
+    UiContainer
+} from "@theoplayer/react-native-ui";
 
 const playerConfig = {
     // Get your THEOplayer license from https://portal.theoplayer.com/
@@ -35,14 +28,9 @@ const playerConfig = {
     },
 };
 
-/**
- * The example app demonstrates the use of the THEOplayerView with a custom UI using the provided UI components.
- * If you don't want to create a custom UI, you can just use the THEOplayerDefaultUi component instead.
- */
-export default function App() {
-    const [player, setPlayer] = useState();
-    const chromeless = playerConfig?.chromeless ?? false;
-    const onPlayerReady = (player) => {
+export default function Index() {
+    const [player, setPlayer] = useState<THEOplayer | undefined>();
+    const onPlayerReady = (player: THEOplayer) => {
         setPlayer(player);
         // optional debug logs
         player.addEventListener(PlayerEventType.SOURCE_CHANGE, console.log);
@@ -70,29 +58,27 @@ export default function App() {
                 "artist": "Artist"
             }
         };
-
-        player.backgroundAudioConfiguration = { enabled: true };
-        player.pipConfiguration = { startsAutomatically: true };
-        console.log('THEOplayer is ready:', player.version);
+        player.backgroundAudioConfiguration = {enabled: true};
+        player.pipConfiguration = {startsAutomatically: true};
+        console.log('THEOplayer is ready');
     };
 
     const needsBorder = Platform.OS === 'ios';
-    const PLAYER_CONTAINER_STYLE = {
-        position: 'absolute',
-        top: needsBorder ? 20 : 0,
-        left: needsBorder ? 5 : 0,
-        bottom: 0,
-        right: needsBorder ? 5 : 0,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#000000',
-    };
 
     return (
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: '#000000' }]}>
-            <View style={PLAYER_CONTAINER_STYLE}>
+        <View style={[StyleSheet.absoluteFill, {backgroundColor: '#000000'}]}>
+            <View style={{
+                position: 'absolute',
+                top: needsBorder ? 20 : 0,
+                left: needsBorder ? 5 : 0,
+                bottom: 0,
+                right: needsBorder ? 5 : 0,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#000000',
+            }}>
                 <THEOplayerView config={playerConfig} onPlayerReady={onPlayerReady}>
-                    {player !== undefined && chromeless && (
+                    {player !== undefined && (
                         <UiContainer
                             theme={{ ...DEFAULT_THEOPLAYER_THEME }}
                             player={player}
@@ -110,9 +96,17 @@ export default function App() {
                             center={<CenteredControlBar left={<SkipButton skip={-10} />} middle={<PlayButton />} right={<SkipButton skip={30} />} />}
                             bottom={
                                 <>
-                                    <ControlBar>
-                                        <SeekBar />
+                                    <ControlBar style={{ justifyContent: 'flex-start' }}>
+                                        <CastMessage />
                                     </ControlBar>
+                                    {
+                                        /*Note: RNSlider is not available on tvOS */
+                                        !(Platform.isTV && Platform.OS === 'ios') && (
+                                            <ControlBar>
+                                                <SeekBar />
+                                            </ControlBar>
+                                        )
+                                    }
                                     <ControlBar>
                                         <MuteButton />
                                         <TimeLabel showDuration={true} />
