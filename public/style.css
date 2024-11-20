@@ -9,9 +9,11 @@ body {
 }
 
 .container {
-  flex: 1
+    display: flex;
+    height: 100vh;
+    align-items: stretch;
 }
 
 .theoplayer-container {
-  z-index: 0;
+    z-index: 0;
 }
