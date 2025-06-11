@@ -34,7 +34,13 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "react-native-theoplayer"
+      [
+        "react-native-theoplayer",
+        {
+          "extensions": ["ima", "dai", "cast"]
+        }
+      ],
+      "react-native-google-cast"
     ],
     "experiments": {
       "typedRoutes": true
