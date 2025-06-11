@@ -11,7 +11,8 @@
     "test": "jest --watchAll",
     "lint": "expo lint",
     "update-dryrun": "npx npm-check-updates --target semver",
-    "update": "npx npm-check-updates --target semver --upgrade"
+    "update": "npx npm-check-updates --target semver --upgrade",
+    "postinstall": "patch-package"
   },
   "jest": {
     "preset": "jest-expo"
@@ -33,6 +34,7 @@
     "expo-symbols": "^0.4.5",
     "expo-system-ui": "^5.0.8",
     "expo-web-browser": "^14.1.6",
+    "patch-package": "^8.0.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-native": "0.79.3",
