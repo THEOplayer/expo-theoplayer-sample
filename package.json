@@ -19,7 +19,7 @@
     "@react-native-community/slider": "^4.5.5",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
-    "@theoplayer/react-native-ui": "^0.9.0",
+    "@theoplayer/react-native-ui": "^0.12.0",
     "expo": "^52.0.25",
     "expo-blur": "^14.0.2",
     "expo-constants": "^17.0.4",
@@ -40,10 +40,10 @@
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~4.4.0",
     "react-native-svg": "15.8.0",
-    "react-native-theoplayer": "^8.12.0",
+    "react-native-theoplayer": "^9.3.0",
     "react-native-web": "^0.19.13",
     "react-native-webview": "13.12.5",
-    "theoplayer": "^8.8.3"
+    "theoplayer": "^9.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
