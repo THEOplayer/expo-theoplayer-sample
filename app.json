@@ -37,21 +37,20 @@
       [
         "react-native-theoplayer",
         {
-          "extensions": ["ima", "dai", "cast"]
+          "extensions": [
+            "ima",
+            "dai",
+            "cast"
+          ]
         }
       ],
-      "react-native-google-cast",
       [
-        "expo-build-properties",
+        "react-native-google-cast",
         {
-          "android": {
-            "compileSdkVersion": 35,
-            "targetSdkVersion": 35,
-            "buildToolsVersion": "35.0.0",
-            "kotlinVersion": "2.0.0"
-          }
+          "androidPlayServicesCastFrameworkVersion": "22.0.0"
         }
-      ]
+      ],
+      "./plugins/expo/withExpo52CastFixAndroid"
     ],
     "experiments": {
       "typedRoutes": true
