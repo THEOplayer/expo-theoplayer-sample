@@ -16,3 +16,16 @@ $ npm run android
 $ npm run web
 $ npm run ios
 ```
+
+### Expo Plugins
+
+Rather than modifying native platform code directly, Expo uses plugins to configure native functionality. This sample app includes the following Expo plugins:
+
+- `expo-router`: sets up the Expo Router library.
+- `expo-splash-screen`: manages splash screen settings.
+- `react-native-theoplayer`: adds additional Maven repositories for Android used by `react-native-theoplayer`.
+- `react-native-google-cast`: configures native Cast settings.
+
+### Notes
+
+- The latest `react-native-google-cast@4.8.3` package is not compatible with Expo 53. We use a patch based on [this PR](https://github.com/react-native-google-cast/react-native-google-cast/pull/566) to enabled support on Android.
