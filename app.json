@@ -40,7 +40,9 @@
           "extensions": [
             "ima",
             "dai",
-            "cast"
+            "cast",
+            "theoads",
+            "millicast"
           ]
         }
       ],
