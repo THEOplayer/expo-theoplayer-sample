@@ -15,6 +15,7 @@ import {
     TimeLabel,
     UiContainer
 } from "@theoplayer/react-native-ui";
+import { StatusBar } from 'expo-status-bar';
 
 const playerConfig = {
     // Get your THEOplayer license from https://portal.theoplayer.com/
@@ -67,6 +68,7 @@ export default function Index() {
 
     return (
         <View style={[StyleSheet.absoluteFill, {backgroundColor: '#000000'}]}>
+            <StatusBar style="dark" />
             <View style={{
                 position: 'absolute',
                 top: needsBorder ? 20 : 0,
