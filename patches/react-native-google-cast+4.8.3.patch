@@ -1,0 +1,94 @@
+diff --git a/node_modules/react-native-google-cast/lib/commonjs/plugin/withAndroidGoogleCast.js b/node_modules/react-native-google-cast/lib/commonjs/plugin/withAndroidGoogleCast.js
+index 4b939d8..82d454d 100644
+--- a/node_modules/react-native-google-cast/lib/commonjs/plugin/withAndroidGoogleCast.js
++++ b/node_modules/react-native-google-cast/lib/commonjs/plugin/withAndroidGoogleCast.js
+@@ -7,6 +7,7 @@ exports.withAndroidGoogleCast = void 0;
+ var _configPlugins = require("@expo/config-plugins");
+ var _codeMod = require("@expo/config-plugins/build/android/codeMod");
+ var _generateCode = require("@expo/config-plugins/build/utils/generateCode");
++const {mergeContents} = require("@expo/config-plugins/build/utils/generateCode");
+ const {
+   addMetaDataItemToMainApplication,
+   getMainApplicationOrThrow
+@@ -174,13 +175,19 @@ function addSafeExtGet(src) {
+ function addGoogleCastVersionImport(src, {
+   version
+ } = {}) {
+-  const newSrc = [];
+-  newSrc.push(`        castFrameworkVersion = "${version}"`);
+-  return (0, _generateCode.mergeContents)({
+-    tag: 'react-native-google-cast-version',
++  const newSrc = [`        castFrameworkVersion = "${version}"`]
++  const hasExtBlock = src.match(/ext(?:\s+)?\{/)
++  const anchor = hasExtBlock ? /ext(?:\s+)?\{/ : /buildscript(?:\s+)?\{/
++
++  if (!hasExtBlock) {
++    newSrc.unshift('  ext {')
++    newSrc.push('  }')
++  }
++  return mergeContents({
++    tag: 'react-native-google-cast-version-import',
+     src,
+     newSrc: newSrc.join('\n'),
+-    anchor: /ext(?:\s+)?\{/,
++    anchor,
+     offset: 1,
+     comment: '//'
+   });
+diff --git a/node_modules/react-native-google-cast/lib/module/plugin/withAndroidGoogleCast.js b/node_modules/react-native-google-cast/lib/module/plugin/withAndroidGoogleCast.js
+index 2afbb4c..eeb4830 100644
+--- a/node_modules/react-native-google-cast/lib/module/plugin/withAndroidGoogleCast.js
++++ b/node_modules/react-native-google-cast/lib/module/plugin/withAndroidGoogleCast.js
+@@ -167,13 +167,19 @@ function addSafeExtGet(src) {
+ function addGoogleCastVersionImport(src, {
+   version
+ } = {}) {
+-  const newSrc = [];
+-  newSrc.push(`        castFrameworkVersion = "${version}"`);
++  const newSrc = [`        castFrameworkVersion = "${version}"`]
++  const hasExtBlock = src.match(/ext(?:\s+)?\{/)
++  const anchor = hasExtBlock ? /ext(?:\s+)?\{/ : /buildscript(?:\s+)?\{/
++
++  if (!hasExtBlock) {
++    newSrc.unshift('  ext {')
++    newSrc.push('  }')
++  }
+   return mergeContents({
+-    tag: 'react-native-google-cast-version',
++    tag: 'react-native-google-cast-version-import',
+     src,
+     newSrc: newSrc.join('\n'),
+-    anchor: /ext(?:\s+)?\{/,
++    anchor,
+     offset: 1,
+     comment: '//'
+   });
+diff --git a/node_modules/react-native-google-cast/src/plugin/withAndroidGoogleCast.ts b/node_modules/react-native-google-cast/src/plugin/withAndroidGoogleCast.ts
+index 0096ea6..f9ad1f6 100644
+--- a/node_modules/react-native-google-cast/src/plugin/withAndroidGoogleCast.ts
++++ b/node_modules/react-native-google-cast/src/plugin/withAndroidGoogleCast.ts
+@@ -262,14 +262,20 @@ function addGoogleCastVersionImport(
+   src: string,
+   { version }: { version?: string } = {}
+ ) {
+-  const newSrc = []
+-  newSrc.push(`        castFrameworkVersion = "${version}"`)
++  const newSrc = [`        castFrameworkVersion = "${version}"`]
++  const hasExtBlock = src.match(/ext(?:\s+)?\{/)
++  const anchor = hasExtBlock ? /ext(?:\s+)?\{/ : /buildscript(?:\s+)?\{/
++
++  if (!hasExtBlock) {
++    newSrc.unshift('  ext {')
++    newSrc.push('  }')
++  }
+ 
+   return mergeContents({
+-    tag: 'react-native-google-cast-version',
++    tag: 'react-native-google-cast-version-import',
+     src,
+     newSrc: newSrc.join('\n'),
+-    anchor: /ext(?:\s+)?\{/,
++    anchor,
+     offset: 1,
+     comment: '//',
+   })
