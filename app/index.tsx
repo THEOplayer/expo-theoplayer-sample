@@ -2,9 +2,11 @@ import {Platform, View, StyleSheet} from "react-native";
 import {PlayerEventType, THEOplayer, THEOplayerView} from "react-native-theoplayer";
 import {useState} from "react";
 import {
+    AirplayButton,
     CastMessage,
     CenteredControlBar,
     CenteredDelayedActivityIndicator,
+    ChromecastButton,
     ControlBar,
     DEFAULT_THEOPLAYER_THEME,
     FullscreenButton,
@@ -87,6 +89,12 @@ export default function Index() {
                             behind={<CenteredDelayedActivityIndicator size={50} />}
                             top={
                                 <ControlBar>
+                                    {!Platform.isTV && (
+                                        <>
+                                            <AirplayButton />
+                                            <ChromecastButton />
+                                        </>
+                                    )}
                                     <LanguageMenuButton />
                                     <SettingsMenuButton>
                                         {/*Note: quality selection is not available on iOS */}
