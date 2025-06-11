@@ -9,14 +9,15 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "update-dryrun": "npx npm-check-updates --target semver",
+    "update": "npx npm-check-updates --target semver --upgrade"
   },
   "jest": {
     "preset": "jest-expo"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.4",
-    "@react-native-community/slider": "^4.5.5",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
     "@theoplayer/react-native-ui": "^0.12.0",
