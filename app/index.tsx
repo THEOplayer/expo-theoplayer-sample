@@ -1,6 +1,6 @@
 import {Platform, View, StyleSheet} from "react-native";
-import {PlayerEventType, THEOplayer, THEOplayerView} from "react-native-theoplayer";
-import {useState} from "react";
+import {PlayerEventType, PresentationMode, THEOplayer, THEOplayerView} from "react-native-theoplayer";
+import {useMemo, useState} from "react";
 import {
     AirplayButton,
     CastMessage,
@@ -15,9 +15,12 @@ import {
     SkipButton,
     Spacer,
     TimeLabel,
-    UiContainer
+    UiContainer,
 } from "@theoplayer/react-native-ui";
-import { StatusBar } from 'expo-status-bar';
+import {SafeAreaProvider, SafeAreaView, Edges} from 'react-native-safe-area-context';
+import {usePresentationMode} from "./hooks/usePresentationMode";
+import {StatusBar} from "expo-status-bar";
+import {SourceMenuButton, SOURCES} from "@/app/custom/SourceMenuButton";
 
 const playerConfig = {
     // Get your THEOplayer license from https://portal.theoplayer.com/
@@ -33,6 +36,13 @@ const playerConfig = {
 
 export default function Index() {
     const [player, setPlayer] = useState<THEOplayer | undefined>();
+    const presentationMode = usePresentationMode(player);
+
+    // In PiP presentation mode on NewArch Android, there is an issue where SafeAreaView does not update the edges in time,
+    // so explicitly disable them here.
+    const edges: Edges = useMemo(() =>
+        (presentationMode === PresentationMode.pip ? [] : ['left', 'top', 'right', 'bottom']), [presentationMode]);
+
     const onPlayerReady = (player: THEOplayer) => {
         setPlayer(player);
         // optional debug logs
@@ -47,20 +57,10 @@ export default function Index() {
         player.addEventListener(PlayerEventType.SEEKED, console.log);
         player.addEventListener(PlayerEventType.ENDED, console.log);
         player.addEventListener(PlayerEventType.ERROR, console.log);
-        player.source = {
-            "sources": [{
-                "src": "https://cdn.theoplayer.com/video/big_buck_bunny/big_buck_bunny.m3u8",
-                "type": "application/x-mpegurl"
-            }],
-            "poster": "https://cdn.theoplayer.com/video/big_buck_bunny/poster.jpg",
-            "metadata": {
-                "title": "The Title",
-                "subtitle": "The Subtitle",
-                "album": "Album",
-                "displayIconUri": "https://cdn.theoplayer.com/video/big_buck_bunny/poster.jpg",
-                "artist": "Artist"
-            }
-        };
+
+        player.autoplay = true;
+        player.source = SOURCES[0].source;
+
         player.backgroundAudioConfiguration = {enabled: true};
         player.pipConfiguration = {startsAutomatically: true};
         console.log('THEOplayer is ready');
@@ -69,67 +69,73 @@ export default function Index() {
     const needsBorder = Platform.OS === 'ios';
 
     return (
-        <View style={[StyleSheet.absoluteFill, {backgroundColor: '#000000'}]}>
-            <StatusBar style="dark" />
-            <View style={{
-                position: 'absolute',
-                top: needsBorder ? 20 : 0,
-                left: needsBorder ? 5 : 0,
-                bottom: 0,
-                right: needsBorder ? 5 : 0,
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: '#000000',
-            }}>
-                <THEOplayerView config={playerConfig} onPlayerReady={onPlayerReady}>
-                    {player !== undefined && (
-                        <UiContainer
-                            theme={{ ...DEFAULT_THEOPLAYER_THEME }}
-                            player={player}
-                            behind={<CenteredDelayedActivityIndicator size={50} />}
-                            top={
-                                <ControlBar>
-                                    {!Platform.isTV && (
-                                        <>
-                                            <AirplayButton />
-                                            <ChromecastButton />
-                                        </>
-                                    )}
-                                    <LanguageMenuButton />
-                                    <SettingsMenuButton>
-                                        {/*Note: quality selection is not available on iOS */}
-                                        <QualitySubMenu />
-                                        <PlaybackRateSubMenu />
-                                    </SettingsMenuButton>
-                                </ControlBar>
-                            }
-                            center={<CenteredControlBar left={<SkipButton skip={-10} />} middle={<PlayButton />} right={<SkipButton skip={30} />} />}
-                            bottom={
-                                <>
-                                    <ControlBar style={{ justifyContent: 'flex-start' }}>
-                                        <CastMessage />
-                                    </ControlBar>
-                                    {
-                                        /*Note: RNSlider is not available on tvOS */
-                                        !(Platform.isTV && Platform.OS === 'ios') && (
-                                            <ControlBar>
-                                                <SeekBar />
-                                            </ControlBar>
-                                        )
-                                    }
+        <SafeAreaProvider>
+            <StatusBar style="light"/>
+            <SafeAreaView edges={edges} style={{flex: 1, backgroundColor: 'black'}}>
+                <View style={styles.container}>
+                    <THEOplayerView config={playerConfig} onPlayerReady={onPlayerReady}>
+                        {player !== undefined && (
+                            <UiContainer
+                                theme={{...DEFAULT_THEOPLAYER_THEME}}
+                                player={player}
+                                behind={<CenteredDelayedActivityIndicator size={50}/>}
+                                top={
                                     <ControlBar>
-                                        <MuteButton />
-                                        <TimeLabel showDuration={true} />
-                                        <Spacer />
-                                        <PipButton />
-                                        <FullscreenButton />
+                                        {/*This is a custom menu for source selection.*/}
+                                        <SourceMenuButton />
+                                        {!Platform.isTV && (
+                                            <>
+                                                <AirplayButton/>
+                                                <ChromecastButton/>
+                                            </>
+                                        )}
+                                        <LanguageMenuButton/>
+                                        <SettingsMenuButton>
+                                            {/*Note: quality selection is not available on iOS */}
+                                            <QualitySubMenu/>
+                                            <PlaybackRateSubMenu/>
+                                        </SettingsMenuButton>
                                     </ControlBar>
-                                </>
-                            }
-                        />
-                    )}
-                </THEOplayerView>
-            </View>
-        </View>
+                                }
+                                center={<CenteredControlBar left={<SkipButton skip={-10}/>} middle={<PlayButton/>}
+                                                            right={<SkipButton skip={30}/>}/>}
+                                bottom={
+                                    <>
+                                        <ControlBar style={{justifyContent: 'flex-start'}}>
+                                            <CastMessage/>
+                                        </ControlBar>
+                                        {
+                                            /*Note: RNSlider is not available on tvOS */
+                                            !(Platform.isTV && Platform.OS === 'ios') && (
+                                                <ControlBar>
+                                                    <SeekBar/>
+                                                </ControlBar>
+                                            )
+                                        }
+                                        <ControlBar>
+                                            <MuteButton/>
+                                            <TimeLabel showDuration={true}/>
+                                            <Spacer/>
+                                            <PipButton/>
+                                            <FullscreenButton/>
+                                        </ControlBar>
+                                    </>
+                                }
+                            />
+                        )}
+                    </THEOplayerView>
+                </View>
+            </SafeAreaView>
+        </SafeAreaProvider>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        // on iOS we cannot stretch an inline playerView to cover the whole screen, otherwise it assumes fullscreen presentationMode.
+        marginHorizontal: Platform.select({ios: 2, default: 0}),
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
