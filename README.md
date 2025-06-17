@@ -26,11 +26,70 @@ Rather than modifying native platform code directly, Expo uses plugins to config
 - `react-native-theoplayer`: adds additional Maven repositories for Android used by `react-native-theoplayer`.
 - `react-native-google-cast`: configures native Cast settings.
 
-### Enable Google Cast support
+### THEOplayer Extensions
+
+Use the `react-native-theoplayer` Expo plugin to configure extensions.
+
+Either once for all platforms:
+
+```json
+{
+  "expo": {
+    "plugins": [
+      [
+        "react-native-theoplayer",
+        {
+          "extensions": ["cast", "dai", "ima", "millicast", "theoads"]
+        }
+      ]
+    ]
+  }
+}
+```
+
+or otherwise with specific values for each platform separately:
+
+```json
+{
+  "expo": {
+    "plugins": [
+      [
+        "react-native-theoplayer",
+        {
+          "ios": {
+            "extensions": ["cast", "ima", "millicast", "sideloaded-texttracks","theoads"]
+          },
+          "android": {
+            "extensions": ["cast", "dai", "ima", "millicast", "theoads"]
+          }
+        }
+      ]
+    ]
+  }
+}
+```
+
+### Enable Google Cast support for Expo 53
 
 The latest `react-native-google-cast@4.8.3` package is not compatible with Expo 53, unfortunately. In order to use it
-in an Expo project:
+in an Expo 53 project, some extra steps are needed.
 
-- A [patch](./patches/react-native-google-cast+4.8.3.patch) needs to be applied after installing the `react-native-google-cast` package. We use a patch based on [this PR](https://github.com/react-native-google-cast/react-native-google-cast/pull/566) to enabled support on Android. The example app uses patch-package to auto-apply it.
-- An extra [Expo plugin](./plugins/expo/withExpo52CastFixAndroid.js) needs to be configured to enable Jetifier on Android. 
+A [patch](./patches/react-native-google-cast+4.8.3.patch) needs to be applied after installing 
+the `react-native-google-cast` package. 
+We use a patch based on [this PR](https://github.com/react-native-google-cast/react-native-google-cast/pull/566) 
+to enable support on Android, and [this PR](https://github.com/react-native-google-cast/react-native-google-cast/issues/560)
+to enable support on iOS. 
+The example app uses patch-package to auto-apply it.
 
+In addition, an [Expo plugin](./plugins/expo/withExpo52CastFixAndroid.js) needs to be configured in `app.json` 
+to enable Jetifier on Android.
+
+```json
+{
+  "expo": {
+    "plugins": [
+      "./plugins/expo/withExpo52CastFixAndroid"
+    ]
+  }
+}
+```
