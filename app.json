@@ -38,13 +38,12 @@
       [
         "react-native-theoplayer",
         {
-          "extensions": [
-            "ima",
-            "dai",
-            "cast",
-            "theoads",
-            "millicast"
-          ]
+          "ios": {
+            "extensions": ["cast", "ima", "millicast", "sideloaded-texttracks","theoads"]
+          },
+          "android": {
+            "extensions": ["cast", "dai", "ima", "millicast", "theoads"]
+          }
         }
       ],
       [
