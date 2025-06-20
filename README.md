@@ -93,3 +93,9 @@ to enable Jetifier on Android.
   }
 }
 ```
+
+#### Enabling Chromecast support on iOS
+
+Our iOS SDK Cast extension needs a specific flavor of the `react-native-google-cast` package 
+to link to. The Expo plugin will add this native dependency, which means auto-linking
+to the default package [needs to be disabled in the `react-native.config.js` file](./react-native.config.js) .
