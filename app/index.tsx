@@ -29,6 +29,12 @@ const playerConfig = {
     chromeless: true,
     hlsDateRange: true,
     libraryLocation: 'theoplayer',
+    cast: {
+        chromecast: {
+            appID: 'CC1AD845',
+        },
+        strategy: 'auto',
+    },
     mediaControl: {
         mediaSessionEnabled: true,
     },
