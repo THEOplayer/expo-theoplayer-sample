@@ -18,15 +18,14 @@ import {
     UiContainer,
 } from "@theoplayer/react-native-ui";
 import {SafeAreaProvider, SafeAreaView, Edges} from 'react-native-safe-area-context';
-import {usePresentationMode} from "./hooks/usePresentationMode";
+import {usePresentationMode} from "@/src/hooks/usePresentationMode";
 import {StatusBar} from "expo-status-bar";
-import {SourceMenuButton, SOURCES} from "@/app/custom/SourceMenuButton";
+import {SourceMenuButton, SOURCES} from "@/src/custom/SourceMenuButton";
 
 const playerConfig = {
     // Get your THEOplayer license from https://portal.theoplayer.com/
     // Without a license, only demo sources hosted on '*.theoplayer.com' domains can be played.
     license: undefined,
-    chromeless: true,
     hlsDateRange: true,
     libraryLocation: 'theoplayer',
     cast: {
@@ -35,8 +34,17 @@ const playerConfig = {
         },
         strategy: 'auto',
     },
+    ui: {
+        language: 'en',
+    },
     mediaControl: {
         mediaSessionEnabled: true,
+        skipForwardInterval: 30,
+        skipBackwardInterval: 10,
+        convertSkipToSeek: true,
+    },
+    ads: {
+        theoads: true,
     },
 };
 
@@ -67,12 +75,18 @@ export default function Index() {
         player.autoplay = true;
         player.source = SOURCES[0].source;
 
-        player.backgroundAudioConfiguration = {enabled: true};
-        player.pipConfiguration = {startsAutomatically: true};
+        player.backgroundAudioConfiguration = {
+            enabled: true,
+            shouldResumeAfterInterruption: true,
+        };
+
+        player.pipConfiguration = {
+            startsAutomatically: true,
+            retainPipOnSourceChange: true,
+        };
+
         console.log('THEOplayer is ready');
     };
-
-    const needsBorder = Platform.OS === 'ios';
 
     return (
         <SafeAreaProvider>
