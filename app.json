@@ -49,10 +49,10 @@
       [
         "react-native-google-cast",
         {
-          "androidPlayServicesCastFrameworkVersion": "22.0.0"
+          "androidPlayServicesCastFrameworkVersion": "22.1.0",
+          "receiverAppId": "CC1AD845"
         }
-      ],
-      "./plugins/expo/withExpo52CastFixAndroid"
+      ]
     ],
     "experiments": {
       "typedRoutes": true

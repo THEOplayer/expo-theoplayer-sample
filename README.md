@@ -69,31 +69,6 @@ or otherwise with specific values for each platform separately:
 }
 ```
 
-### Enable Google Cast support for Expo 53
-
-The latest `react-native-google-cast@4.8.3` package is not compatible with Expo 53, unfortunately. In order to use it
-in an Expo 53 project, some extra steps are needed.
-
-A [patch](./patches/react-native-google-cast+4.8.3.patch) needs to be applied after installing 
-the `react-native-google-cast` package. 
-We use a patch based on [this PR](https://github.com/react-native-google-cast/react-native-google-cast/pull/566) 
-to enable support on Android, and [this PR](https://github.com/react-native-google-cast/react-native-google-cast/issues/560)
-to enable support on iOS. 
-The example app uses patch-package to auto-apply it.
-
-In addition, an [Expo plugin](./plugins/expo/withExpo52CastFixAndroid.js) needs to be configured in `app.json` 
-to enable Jetifier on Android.
-
-```json
-{
-  "expo": {
-    "plugins": [
-      "./plugins/expo/withExpo52CastFixAndroid"
-    ]
-  }
-}
-```
-
 #### Enabling Chromecast support on iOS
 
 Our iOS SDK Cast extension needs a specific flavor of the `react-native-google-cast` package 
