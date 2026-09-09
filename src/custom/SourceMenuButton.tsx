@@ -1,8 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { Platform } from 'react-native';
 import { ListSvg, MenuButton, MenuRadioButton, MenuView, PlayerContext, ScrollableMenu } from '@theoplayer/react-native-ui';
+import type { SourceDescription, THEOplayer } from 'react-native-theoplayer';
 import type { Source } from './Source';
 import ALL_SOURCES from './sources.json';
+
+const setSource = (player: THEOplayer, source?: SourceDescription) => {
+  player.source = source;
+};
 
 export const SOURCES = ALL_SOURCES.filter((source) => source.os.indexOf(Platform.OS) >= 0) as Source[];
 
@@ -24,7 +29,7 @@ export const SourceMenuView = () => {
 
   const selectSource = (id: number | undefined) => {
     setLocalSourceId(id);
-    context.player.source = id !== undefined ? SOURCES[id].source : undefined;
+    setSource(context.player, id !== undefined ? SOURCES[id].source : undefined);
   };
   return (
     <MenuView
