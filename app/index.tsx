@@ -1,5 +1,5 @@
 import {Platform, View, StyleSheet} from "react-native";
-import {PlayerEventType, PresentationMode, THEOplayer, THEOplayerView} from "react-native-theoplayer";
+import {PlayerConfiguration, PlayerEventType, PresentationMode, THEOplayer, THEOplayerView} from "react-native-theoplayer";
 import {useMemo, useState} from "react";
 import {
     AirplayButton,
@@ -22,7 +22,7 @@ import {usePresentationMode} from "@/src/hooks/usePresentationMode";
 import {StatusBar} from "expo-status-bar";
 import {SourceMenuButton, SOURCES} from "@/src/custom/SourceMenuButton";
 
-const playerConfig = {
+const playerConfig: PlayerConfiguration = {
     // Get your THEOplayer license from https://portal.theoplayer.com/
     // Without a license, only demo sources hosted on '*.theoplayer.com' domains can be played.
     license: undefined,
