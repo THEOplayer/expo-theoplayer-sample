@@ -16,7 +16,6 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
       "package": "com.anonymous.expotheoplayersample"
     },
     "web": {
@@ -25,6 +24,7 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      "./plugins/withAndroidDesugaring",
       "expo-router",
       [
         "expo-splash-screen",
@@ -39,10 +39,22 @@
         "react-native-theoplayer",
         {
           "ios": {
-            "extensions": ["cast", "ima", "millicast", "sideloaded-texttracks","theoads"]
+            "extensions": [
+              "cast",
+              "ima",
+              "millicast",
+              "sideloaded-texttracks",
+              "theoads"
+            ]
           },
           "android": {
-            "extensions": ["cast", "dai", "ima", "millicast", "theoads"]
+            "extensions": [
+              "cast",
+              "dai",
+              "ima",
+              "millicast",
+              "theoads"
+            ]
           }
         }
       ],
@@ -52,7 +64,10 @@
           "androidPlayServicesCastFrameworkVersion": "22.1.0",
           "receiverAppId": "CC1AD845"
         }
-      ]
+      ],
+      "expo-font",
+      "expo-status-bar",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
